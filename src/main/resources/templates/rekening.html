@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Bedrag storten</title>
+</head>
+<body>
+<h1>Hier kun je een gigantische bedrag storten</h1>
+
+
+<form th:object="${rekening}" action="/rekening"  method="post">
+
+  <input type="text" name="name" id="">
+  <label for="name">rekeningnaam</label>
+  <input type="submit" value="Submit" />
+</form>
+
+
+</body>
+</html>

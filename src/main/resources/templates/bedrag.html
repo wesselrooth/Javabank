@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bedrag storten</title>
+</head>
+<body>
+<h1>Hier kun je een gigantische bedrag storten</h1>
+
+
+<form th:object="${bedrag}" action="/bedrag"  method="post">
+<!--    <label for="bedrag">Bedrag: </label>-->
+<!--    <form:input path="bedrag" id="bedrag" />-->
+    <input type="float" id="" name="pinbedrag" th:field="*{pinbedrag}">
+
+    <p th:errors = "*{pinbedrag}" class="text-danger"
+       th:if="${#fields.hasErrors('pinbedrag')}"></p>
+    <input type="submit" value="Submit" />
+</form>
+
+<p th:text="${saldo}"></p>
+</body>
+</html>
