@@ -8,6 +8,7 @@ import org.yaml.snakeyaml.events.Event;
 public interface BankRekeningRepository extends JpaRepository<BankRekening, Long> {
 //    BankRekening findByid(Long id);
     BankRekening findBankRekeningByUser(User user);
+    BankRekening findBankRekeningById(Long id);
 }
 
 

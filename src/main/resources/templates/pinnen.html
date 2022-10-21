@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pin hier je bedrag</title>
+</head>
+<body>
+<h1>Pinnen ja graag</h1>
+
+
+<form th:object="${bedrag}" action="/pinnen"  method="post">
+
+  <input type="float" id="" name="pinbedrag" th:field="*{pinbedrag}">
+
+  <p th:errors = "*{pinbedrag}" class="text-danger"
+     th:if="${#fields.hasErrors('pinbedrag')}"></p>
+  <input type="submit" value="Submit" />
+</form>
+<p th:text="${error}"></p>
+<p th:text="${saldo}"></p>
+</body>
+</html>

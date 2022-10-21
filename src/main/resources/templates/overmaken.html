@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pin hier je bedrag</title>
+</head>
+<body>
+<h1>Geld overmaken</h1>
+
+
+<form th:object="${bedrag}" action="/overmaken"  method="post">
+
+    <label for="pinbedrag">bedrag</label>
+    <input type="float" id="" name="pinbedrag" th:field="*{pinbedrag}">
+
+    <p th:errors = "*{pinbedrag}" class="text-danger"
+       th:if="${#fields.hasErrors('pinbedrag')}"></p>
+    <br>
+    <label for="overmaak_rekening">rekening nummer</label>
+    <input type="number" name="overmaak_rekening">
+    <br>
+
+    <input type="submit" value="Submit" />
+</form>
+<p th:text="${error}"></p>
+<p th:text="${saldo}"></p>
+</body>
+</html>

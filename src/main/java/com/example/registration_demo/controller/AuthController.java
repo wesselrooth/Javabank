@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -125,4 +126,116 @@ public class AuthController {
         return "rekening";
     }
 
+    @GetMapping("/pinnen")
+    public String get_pinnen(Model model, Principal principal){
+        System.out.println("--> GET pinnen");
+        model.addAttribute("bedrag", new Bedrag());
+        User user = userService.findUserByEmail(principal.getName());
+        BankRekening userekening =   rekeningRepository.findBankRekeningByUser(user);
+        Double saldo = userekening.getSaldo();
+        model.addAttribute("saldo", saldo);
+        return "pinnen";
+    }
+
+    @PostMapping("/pinnen")
+    public String post_pinnen(@Valid Bedrag bedrag, Model model, BindingResult result, Principal principal){
+        System.out.println("--> POST pinnen");
+
+        User user = userService.findUserByEmail(principal.getName());
+        BankRekening rekening = rekeningRepository.findBankRekeningByUser(user);
+
+        Double saldo = rekening.getSaldo();
+        Double double_bedrag = bedrag.getPinbedrag().doubleValue();
+
+        if (double_bedrag < saldo){
+                saldo = saldo - double_bedrag;
+                rekening.setSaldo(saldo);
+                rekeningRepository.save(rekening);
+        }
+        else{
+            model.addAttribute("error", "Niet genoeg saldo");
+        }
+        model.addAttribute("saldo", rekening.getSaldo());
+        return "pinnen";
+
+    }
+    /*
+    * Wat moet er gebeuren als je geld wilt overmaken
+    * Bedrag invullen
+    *   Bedrag check, laat error zien
+    *
+    * Check of de gebruiker wel het bedrag op zijn rekening heeft staan
+    *
+    * Pak de rekening nummer waar het naartoe moet,
+    *   Laat zien op wie zijn naam deze staat
+    * Is dit goed, maak dan het geld over
+    *
+    * */
+    @GetMapping("/overmaken")
+    public String get_overmaken(Model model,Principal principal){
+        System.out.println("--> GET overmaken");
+        model.addAttribute("bedrag", new Bedrag());
+
+        return "overmaken";
+    }
+    @PostMapping("/overmaken")
+    public String post_overmaken(@Valid Bedrag bedrag, BindingResult result, Model model, Principal principal, @RequestParam int overmaak_rekening){
+        System.out.println("--> POST overmaken");
+        System.out.println("Overmaakrekening: " + overmaak_rekening);
+        User user = userService.findUserByEmail(principal.getName());
+        BankRekening rekening = rekeningRepository.findBankRekeningByUser(user);
+
+        Double saldo = rekening.getSaldo();
+        Double double_bedrag = bedrag.getPinbedrag().doubleValue();
+
+        if (double_bedrag < saldo){
+            saldo = saldo - double_bedrag;
+            /*
+            * Logic om geld op andere rekeneing te krijgen
+            * */
+            Long rekeningId = Long.valueOf(overmaak_rekening);
+
+            BankRekening transfer_rekening =  rekeningRepository.findBankRekeningById(rekeningId);
+            System.out.println("En damens en heren de nieuwe rekening is **tromgeroffel ---> " + transfer_rekening);
+            model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
+            model.addAttribute("rekeningnummer", transfer_rekening.getId());
+            model.addAttribute("bedrag", bedrag.getPinbedrag());
+            return "overmaak_check";
+        }
+        else{
+            model.addAttribute("error", "Niet genoeg saldo");
+        }
+        model.addAttribute("saldo", rekening.getSaldo());
+        return "overmaken";
+    }
+    @PostMapping("/overboeken")
+    public String overmaakCheck(@RequestParam String rekeningnaam,@RequestParam int rekeningnummer ,@RequestParam int bedrag, Principal principal ){
+        System.out.println("--> GET Overboeken");
+
+        User user = userService.findUserByEmail(principal.getName());
+        BankRekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
+
+        double saldo = user_rekening.getSaldo();
+
+        double overboek_bedrag = Double.valueOf(bedrag);
+
+        saldo = saldo - overboek_bedrag;
+
+        user_rekening.setSaldo(saldo);
+
+
+        User tranfer_user = userService.findUserByEmail(rekeningnaam);
+        BankRekening transfer_rekening = rekeningRepository.findBankRekeningByUser(tranfer_user);
+
+        double transfer_saldo = transfer_rekening.getSaldo();
+
+        transfer_saldo =  transfer_saldo + overboek_bedrag;
+        transfer_rekening.setSaldo(transfer_saldo);
+
+        rekeningRepository.save(user_rekening);
+        rekeningRepository.save(transfer_rekening);
+
+        System.out.println("--> Oke het geld is overgemaakt");
+        return "sucess";
+    }
 }

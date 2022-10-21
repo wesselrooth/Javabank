@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Overmaak check</h1>
+
+<p th:text="${rekeningnaam}"></p>
+<form action="/overboeken" method="post">
+    <input type="text" name="rekeningnaam" id="" th:value="${rekeningnaam}" readonly>
+    <br>
+
+    <input type="number" name="rekeningnummer" id="" th:value="${rekeningnummer}" readonly>
+    <br>
+    <input type="number" name="bedrag" id="" th:value="${bedrag}" readonly>
+    <br>
+    <input type="submit" value="Overboeken">
+</form>
+
+</body>
+</html>
