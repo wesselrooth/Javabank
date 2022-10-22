@@ -75,6 +75,7 @@ public class AuthController {
     @GetMapping("/bedrag")
     public String get_bedrag(Model model, Principal principal){
         System.out.println("--> GET bedrag");
+
         model.addAttribute("bedrag", new Bedrag());
         User current_user = userService.findUserByEmail(principal.getName());
         BankRekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
@@ -122,7 +123,7 @@ public class AuthController {
         }
         rekening.setUser(userService.findUserByEmail(principal.getName()));
         rekeningRepository.save(rekening);
-
+        System.out.println("REKENING opgeslagen");
         return "rekening";
     }
 
