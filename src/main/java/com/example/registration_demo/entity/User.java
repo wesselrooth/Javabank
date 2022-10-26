@@ -42,6 +42,6 @@ public class User {
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private Set<BankRekening> rekeningen;
+    private Set<Bankrekening> rekeningen;
 
 }

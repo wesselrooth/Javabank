@@ -1,7 +1,8 @@
 package com.example.registration_demo.controller;
 
 import com.example.registration_demo.dto.UserDto;
-import com.example.registration_demo.entity.BankRekening;
+//import com.example.registration_demo.entity.BankRekening;
+import com.example.registration_demo.entity.Bankrekening;
 import com.example.registration_demo.entity.Bedrag;
 import com.example.registration_demo.entity.User;
 import com.example.registration_demo.repository.BankRekeningRepository;
@@ -78,7 +79,7 @@ public class AuthController {
 
         model.addAttribute("bedrag", new Bedrag());
         User current_user = userService.findUserByEmail(principal.getName());
-        BankRekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
+        Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
 
         model.addAttribute("saldo", user_rekening.getSaldo());
         return "bedrag";
@@ -92,7 +93,7 @@ public class AuthController {
             return "/bedrag";
         }
         User current_user = userService.findUserByEmail(principal.getName());
-        BankRekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
+        Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
 
         double saldo  = user_rekening.getSaldo();
 
@@ -111,12 +112,12 @@ public class AuthController {
     @GetMapping("/rekening")
     public String get_rekening(Model model){
         System.out.println("--> GET rekening");
-        model.addAttribute("rekening", new BankRekening());
+        model.addAttribute("rekening", new Bankrekening());
         return "rekening";
     }
 
     @PostMapping("/rekening")
-    public String post_rekening(@Valid BankRekening rekening, BindingResult result, Model model, Principal principal){
+    public String post_rekening(@Valid Bankrekening rekening, BindingResult result, Model model, Principal principal){
 
         if (result.hasErrors()){
             System.out.println("ERRORS");
@@ -132,7 +133,7 @@ public class AuthController {
         System.out.println("--> GET pinnen");
         model.addAttribute("bedrag", new Bedrag());
         User user = userService.findUserByEmail(principal.getName());
-        BankRekening userekening =   rekeningRepository.findBankRekeningByUser(user);
+        Bankrekening userekening =   rekeningRepository.findBankRekeningByUser(user);
         Double saldo = userekening.getSaldo();
         model.addAttribute("saldo", saldo);
         return "pinnen";
@@ -143,7 +144,7 @@ public class AuthController {
         System.out.println("--> POST pinnen");
 
         User user = userService.findUserByEmail(principal.getName());
-        BankRekening rekening = rekeningRepository.findBankRekeningByUser(user);
+        Bankrekening rekening = rekeningRepository.findBankRekeningByUser(user);
 
         Double saldo = rekening.getSaldo();
         Double double_bedrag = bedrag.getPinbedrag().doubleValue();
@@ -184,7 +185,7 @@ public class AuthController {
         System.out.println("--> POST overmaken");
         System.out.println("Overmaakrekening: " + overmaak_rekening);
         User user = userService.findUserByEmail(principal.getName());
-        BankRekening rekening = rekeningRepository.findBankRekeningByUser(user);
+        Bankrekening rekening = rekeningRepository.findBankRekeningByUser(user);
 
         Double saldo = rekening.getSaldo();
         Double double_bedrag = bedrag.getPinbedrag().doubleValue();
@@ -196,7 +197,7 @@ public class AuthController {
             * */
             Long rekeningId = Long.valueOf(overmaak_rekening);
 
-            BankRekening transfer_rekening =  rekeningRepository.findBankRekeningById(rekeningId);
+            Bankrekening transfer_rekening =  rekeningRepository.findBankRekeningById(rekeningId);
             System.out.println("En damens en heren de nieuwe rekening is **tromgeroffel ---> " + transfer_rekening);
             model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
             model.addAttribute("rekeningnummer", transfer_rekening.getId());
@@ -214,7 +215,7 @@ public class AuthController {
         System.out.println("--> GET Overboeken");
 
         User user = userService.findUserByEmail(principal.getName());
-        BankRekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
+        Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
 
         double saldo = user_rekening.getSaldo();
 
@@ -226,7 +227,7 @@ public class AuthController {
 
 
         User tranfer_user = userService.findUserByEmail(rekeningnaam);
-        BankRekening transfer_rekening = rekeningRepository.findBankRekeningByUser(tranfer_user);
+        Bankrekening transfer_rekening = rekeningRepository.findBankRekeningByUser(tranfer_user);
 
         double transfer_saldo = transfer_rekening.getSaldo();
 

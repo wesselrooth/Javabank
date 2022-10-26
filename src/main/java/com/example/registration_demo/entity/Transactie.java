@@ -15,12 +15,12 @@ public class Transactie {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "bankrekening",nullable = false)
-    private BankRekening receiver_rekening;
+    @JoinColumn(name = "bankrekening_id",nullable = false)
+    private Bankrekening receiver_rekening;
 
     private Date transactieDate;
 
     @ManyToOne
-    @JoinColumn(name = "bankrekening",nullable = false)
-    private BankRekening rekening;
+    @JoinColumn(name = "bankrekening_id",nullable = false)
+    private Bankrekening rekening;
 }

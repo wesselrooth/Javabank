@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="bankrekening")
-public class BankRekening {
+public class Bankrekening {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +25,7 @@ public class BankRekening {
         return this.name;
     }
 
-    @OneToMany(mappedBy = "bankrekening")
+    @OneToMany(mappedBy = "Bankrekening")
     private Set<Transactie> transacties;
 
     /*
