@@ -14,13 +14,13 @@ public class Transactie {
     @Id
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "bankrekening_id",nullable = false)
-    private Bankrekening receiver_rekening;
-
     private Date transactieDate;
 
     @ManyToOne
-    @JoinColumn(name = "bankrekening_id",nullable = false)
+    @JoinColumn(name = "bankrekening_id",nullable = false, insertable = false,updatable = false)
+    private Bankrekening receiver_rekening;
+
+    @ManyToOne
+    @JoinColumn(name = "bankrekening_id",nullable = false, insertable = false,updatable = false)
     private Bankrekening rekening;
 }

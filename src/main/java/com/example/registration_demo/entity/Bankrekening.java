@@ -25,9 +25,11 @@ public class Bankrekening {
         return this.name;
     }
 
-    @OneToMany(mappedBy = "Bankrekening")
+    @OneToMany(mappedBy = "rekening")
     private Set<Transactie> transacties;
 
+    @OneToMany(mappedBy = "receiver_rekening")
+    private Set<Transactie> ontvangen_transacties;
     /*
     * Getter / Setters
     */
