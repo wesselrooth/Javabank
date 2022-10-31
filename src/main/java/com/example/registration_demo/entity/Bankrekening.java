@@ -1,5 +1,7 @@
 package com.example.registration_demo.entity;
 
+import com.example.registration_demo.repository.BankRekeningRepository;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
@@ -61,5 +63,28 @@ public class Bankrekening {
     }
     public void setSaldo(double saldo) {
         this.saldo = saldo;
+    }
+
+    /*
+    Wat heb ik nodig
+    Rekenig Repo
+    Rekening van user,
+    Bedrag waarmee gerekend moet worden
+
+    */
+
+    public void subtractSaldo(double bedrag){
+        double saldo = this.getSaldo();
+
+        saldo = saldo - bedrag;
+
+        this.setSaldo(saldo);
+    }
+    public void addSaldo(double bedrag){
+        double saldo = this.getSaldo();
+
+        saldo = saldo + bedrag;
+        this.setSaldo(saldo);
+
     }
 }

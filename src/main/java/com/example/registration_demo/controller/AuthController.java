@@ -4,8 +4,10 @@ import com.example.registration_demo.dto.UserDto;
 //import com.example.registration_demo.entity.BankRekening;
 import com.example.registration_demo.entity.Bankrekening;
 import com.example.registration_demo.entity.Bedrag;
+import com.example.registration_demo.entity.Transactie;
 import com.example.registration_demo.entity.User;
 import com.example.registration_demo.repository.BankRekeningRepository;
+import com.example.registration_demo.repository.TransactieRepository;
 import com.example.registration_demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -28,6 +29,8 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private BankRekeningRepository rekeningRepository;
+    @Autowired
+    private TransactieRepository transactieRepository;
 
     public AuthController(UserService userService) {
         this.userService = userService;
@@ -217,27 +220,32 @@ public class AuthController {
         User user = userService.findUserByEmail(principal.getName());
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
 
-        double saldo = user_rekening.getSaldo();
-
+//      subtract the money of the account
         double overboek_bedrag = Double.valueOf(bedrag);
+        user_rekening.subtractSaldo(overboek_bedrag);
 
-        saldo = saldo - overboek_bedrag;
+//      Find account of receiver
+        User user_reciver = userService.findUserByEmail(rekeningnaam);
+        Bankrekening transfer_rekening = rekeningRepository.findBankRekeningByUser(user_reciver);
 
-        user_rekening.setSaldo(saldo);
-
-
-        User tranfer_user = userService.findUserByEmail(rekeningnaam);
-        Bankrekening transfer_rekening = rekeningRepository.findBankRekeningByUser(tranfer_user);
-
+//        Add money to receiver account
         double transfer_saldo = transfer_rekening.getSaldo();
+        transfer_rekening.addSaldo(transfer_saldo);
 
-        transfer_saldo =  transfer_saldo + overboek_bedrag;
-        transfer_rekening.setSaldo(transfer_saldo);
+        Transactie transactie = new Transactie();
+        transactie.setBedrag(overboek_bedrag);
+        transactie.setRekening(user_rekening);
+        transactie.setReceiver_rekening(transfer_rekening);
 
+        transactieRepository.save(transactie);
         rekeningRepository.save(user_rekening);
         rekeningRepository.save(transfer_rekening);
 
         System.out.println("--> Oke het geld is overgemaakt");
         return "sucess";
+    }
+    @GetMapping("fragment")
+    public String fragment_test(){
+        return "header_fragment";
     }
 }

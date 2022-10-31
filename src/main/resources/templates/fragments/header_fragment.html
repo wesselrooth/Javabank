@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+    <div th:fragment="header">
+        <section>
+            <div class="header">
+                <div class="logo-container">
+                    <p>
+                        LOGO
+                    </p>
+                </div>
+                <div class="auth-container">
+                    <div class="menu-container">
+                        <div class="menu-item-container">
+                            <a  class="menu-item" th:href="@{/index}">home</a>
+                        </div>
+                        <div class="menu-item-container">
+                            <a  class="menu-item" th:href="@{/login}">login</a>
+                        </div>
+                        <div class="menu-item-container">
+                            <a class="menu-item" th:href="@{/logout}">logout</a>
+                        </div>
+                        <div class="menu-item-container">
+                            <a class="menu-item" th:href="@{/register}">register</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
+
+
