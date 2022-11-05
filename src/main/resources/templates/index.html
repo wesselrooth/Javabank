@@ -15,7 +15,27 @@
 <div th:replace="fragments/header_fragment :: header"> </div>
 
 <div class="site-container">
-    <div th:replace="fragments/sidemenu_fragment :: side_menu"> </div>
+    <section>
+        <div class="row">
+            <div class="column-20 site-menu" >
+                <div class="image-container">
+                    <img th:src="@{media/img/download.jpeg}" alt=""/>
+                </div>
+                <div class="text-block-container">
+                    <p>Firstname Lastname</p>
+                </div>
+                <div class="top-down-list-container">
+                    <ul class="side-menu-list">
+                        <li>List item</li>
+                        <li>List item</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column-80">
+                <h3>placeholder transfer money</h3>
+            </div>
+        </div>
+    </section>
 </div>
 <div th:replace="fragments/footer_fragment :: footer"> </div>
 
