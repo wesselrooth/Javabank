@@ -9,39 +9,87 @@ body,html{
     max-width: 100%;
     height: 100%;
     scroll-behavior: smooth;
+    background-color: #f1f1f1!important;
 }
 /*
 Standaard elements
 */
+.row-padding{
+    padding:50px
+}
 .row{
     width: 100%;
+    margin: 0;
+}
+.column-100{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.column-25{
+    width: 25%;
+    display: flex;
+    justify-content: center;
 }
 .column-30{
     width: 33.3%;
+    display: flex;
+    justify-content: center;
 }
+.column-50{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+/* Links */
+
+.link{
+    color: black
+}
+/* Header-footer */
 .header{
     background-color: #007057;
     display: flex;
     width: 100%;
-    padding:0px 50px;
+    padding: 0px 50px;
+    position: fixed;
+    z-index: 10;
+    height: 50px;
+    top: 0;
 }
-.footer{
-    bottom: 0;
-    padding:50px;
-    background: rgba(0, 112, 87, 0.45);
+.auth-container{
+    width: 70%;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+.logo-container{
+    width: 30%;
 }
 
-.site-container{
-    padding:20px 50px;
-    height: 100%;
+.footer{
+    bottom: 0;
+    background: rgba(0, 112, 87, 0.45);
 }
+/* <-- Navigation --> */
 .side-menu{
     height: 100%;
     width: 300px;
     background-color: #00705742;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    z-index:9;
 }
+
+.site-container{
+    height: 100%;
+    margin-left: 300px;
+    margin-top: 50px;
+}
+
 .side-menu-profile{
     border-radius: 50%;
     max-width: 100px;
@@ -54,12 +102,7 @@ Standaard elements
 .logo-container{
     width: 30%;
 }
-.auth-container{
-    width: 70%;
-    justify-content: flex-end;
-    align-items: center;
 
-}
 .menu-container{
     display: flex;
     justify-content: flex-end;
@@ -72,3 +115,48 @@ Standaard elements
     font-size: 20px;
 }
 
+.transfer-block{
+    background-color: green;
+    padding:50px;
+}
+.overview-block{
+    background-color:yellow;
+    padding:50px;
+}
+.history-block{
+    background-color: blue;
+    padding:50px;
+}
+.withdraw-block{
+    background-color: brown;
+    padding:50px;
+}
+.deposite-block{
+    background-color: red;
+    padding:50px;
+}
+
+
+
+/* History */
+.history-list{
+    list-style-type: none;
+    padding: 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.history-list-item{
+    background-color: #00705742;
+    border-color: grey;
+    border-width: 2px;
+    border-style: solid;
+    padding-left: 20px;
+}
+.history-image{
+    background-color: #00705742;
+    display: flex;
+    align-items: center;
+    padding:50px
+}

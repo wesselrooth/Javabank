@@ -9,17 +9,92 @@
           crossorigin="anonymous">
     <link th:href="@{/styles/style.css}" rel="stylesheet" />
 
+    <!-- template: https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
 </head>
 <body>
-
-<div th:replace="fragments/header_fragment :: header"> </div>
+<!-- Header import-->
+<div th:replace="fragments/header_fragment :: header"></div>
+<!--Side Navigation-->
+<nav th:replace="fragments/sidemenu_fragment :: side_menu"></nav>
 
 <div class="site-container">
-    <div th:replace="fragments/sidemenu_fragment :: side_menu"> </div>
+    <section>
+        <div class="row row-padding">
+            <div class="column-25">
+                <a href="#" class="link">
+                    <div class="column-content transfer-block">
+                        <h2>Transfer</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="column-25">
+                <a href="#" class="link">
+                    <div class="column-content overview-block">
+                        <h2>Accounts</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="column-25">
+                <a href="#" class="link">
+                    <div class="column-content withdraw-block">
+                        <h2>Withdraw</h2>
+                    </div>
+                </a>
+            </div>
+            <div class="column-25">
+                <a href="#" class="link">
+                    <div class="column-content deposite-block">
+                        <h2>Deposite</h2>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="row row-padding">
+
+            <div class="column-50">
+                <a href="#" class="link">
+                    <div class="history-image">
+                        <h2>History</h2>
+                    </div>
+                </a>
+            </div>
+
+            <div class="column-50">
+
+                <ul class="history-list">
+                    <li class="history-list-item">
+                        <div class="list-item">
+                            In
+                        </div>
+
+                    </li>
+                    <li class="history-list-item">
+                        Out
+                    </li>
+                    <li class="history-list-item">
+                        In
+                    </li>
+                    <li class="history-list-item">
+                        Out
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <section></section>
+
+        <div th:replace="fragments/footer_fragment :: footer">
+
+        </div>
+    </section>
 </div>
-<div th:replace="fragments/footer_fragment :: footer"> </div>
-
-
 
 </body>
 </html>

@@ -8,27 +8,22 @@
 </head>
 
 <body>
-<div th:fragment="side_menu" class="side-menu">
-  <section>
-    <div>
-      <div class="image-container">
-        <img src="/media/images.jpeg" alt="" srcset="" class="side-menu-profile">
-      </div>
-      <div class="text-block-container">
-        <p>Firstname Lastname</p>
-      </div>
 
-      <div class="top-down-list-container">
-        <ul class="side-menu-list">
-          <li>List item</li>
-          <li>List item</li>
-        </ul>
-      </div>
-    </div>
+<nav th:fragment="side_menu" class="side-menu" >
+  <div class="image-container">
+    <img src="/media/images.jpeg" alt="" srcset="" class="side-menu-profile">
+  </div>
+  <div class="text-block-container">
+    <p>Firstname Lastname</p>
+  </div>
+  <div class="top-down-list-container">
+    <ul class="side-menu-list">
+      <li>List item</li>
+      <li>List item</li>
+    </ul>
+  </div>
+</nav>
 
-  </section>
-
-</div>
 </body>
 </html>
 
