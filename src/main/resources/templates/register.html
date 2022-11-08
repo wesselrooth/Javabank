@@ -21,18 +21,13 @@
     <section>
         <div class="row row-padding">
 
-            <div class="column-50">
-                <div th:if="${param.success}">
-                    <div class="alert alert-info">
-                        You have successfully registered our app!
-                    </div>
-                </div>
+            <div class="column-100">
                 <form
                         method="post"
                         role="form"
                         th:action="@{/register/save}"
-                        th:object="${user}"
-                >
+                        th:object="${user}">
+
                     <div class="form-group mb-3">
                         <label class="form-label">First Name</label>
                         <input
@@ -41,8 +36,7 @@
                                 name="firstName"
                                 placeholder="Enter first name"
                                 th:field="*{firstName}"
-                                type="text"
-                        />
+                                type="text"/>
                         <p th:errors = "*{firstName}" class="text-danger"
                            th:if="${#fields.hasErrors('firstName')}"></p>
                     </div>
@@ -93,6 +87,15 @@
                         <span>Already registered? <a th:href="@{/login}">Login here</a></span>
                     </div>
                 </form>
+
+            </div>
+        </div>
+
+        <div class="row row-padding">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">
+                    You have successfully registered our app!
+                </div>
             </div>
         </div>
     </section>

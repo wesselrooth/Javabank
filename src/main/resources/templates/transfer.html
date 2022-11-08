@@ -24,7 +24,7 @@
         <div class="row row-padding">
 
             <div class="column-50">
-                <form th:object="${bedrag}" action="/overmaken"  method="post">
+                <form th:object="${bedrag}" action="/transfer_check"  method="post">
 
                     <label for="pinbedrag">bedrag</label>
                     <input type="float" id="" name="pinbedrag" th:field="*{pinbedrag}">

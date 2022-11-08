@@ -35,7 +35,7 @@ public class AuthController {
     public AuthController(UserService userService) {
         this.userService = userService;
     }
-    @GetMapping("/index")
+    @GetMapping("/")
     public String home(){
         return "index";
     }
@@ -76,7 +76,7 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/bedrag")
+    @GetMapping("/deposite")
     public String get_bedrag(Model model, Principal principal){
         System.out.println("--> GET bedrag");
 
@@ -85,15 +85,15 @@ public class AuthController {
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
 
         model.addAttribute("saldo", user_rekening.getSaldo());
-        return "bedrag";
+        return "deposite";
     }
 
-    @PostMapping("/bedrag")
+    @PostMapping("/deposite")
     public String post_bedrag(@Valid Bedrag bedrag, BindingResult result, Model model, Principal principal){
 
         if(result.hasErrors()){
             model.addAttribute("bedrag", bedrag);
-            return "/bedrag";
+            return "/deposite";
         }
         User current_user = userService.findUserByEmail(principal.getName());
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
@@ -109,17 +109,17 @@ public class AuthController {
         model.addAttribute("saldo", user_rekening.getSaldo());
 
         rekeningRepository.save(user_rekening);
-        return "bedrag";
+        return "deposite";
     }
 
-    @GetMapping("/rekening")
+    @GetMapping("/bankaccount")
     public String get_rekening(Model model){
         System.out.println("--> GET rekening");
         model.addAttribute("rekening", new Bankrekening());
-        return "rekening";
+        return "backaccount";
     }
 
-    @PostMapping("/rekening")
+    @PostMapping("/bankaccount")
     public String post_rekening(@Valid Bankrekening rekening, BindingResult result, Model model, Principal principal){
 
         if (result.hasErrors()){
@@ -128,10 +128,10 @@ public class AuthController {
         rekening.setUser(userService.findUserByEmail(principal.getName()));
         rekeningRepository.save(rekening);
         System.out.println("REKENING opgeslagen");
-        return "rekening";
+        return "bankaccount";
     }
-
-    @GetMapping("/pinnen")
+/* Withdraw*/
+    @GetMapping("/withdraw")
     public String get_pinnen(Model model, Principal principal){
         System.out.println("--> GET pinnen");
         model.addAttribute("bedrag", new Bedrag());
@@ -139,10 +139,10 @@ public class AuthController {
         Bankrekening userekening =   rekeningRepository.findBankRekeningByUser(user);
         Double saldo = userekening.getSaldo();
         model.addAttribute("saldo", saldo);
-        return "pinnen";
+        return "withdraw";
     }
 
-    @PostMapping("/pinnen")
+    @PostMapping("/withdraw")
     public String post_pinnen(@Valid Bedrag bedrag, Model model, BindingResult result, Principal principal){
         System.out.println("--> POST pinnen");
 
@@ -161,7 +161,7 @@ public class AuthController {
             model.addAttribute("error", "Niet genoeg saldo");
         }
         model.addAttribute("saldo", rekening.getSaldo());
-        return "pinnen";
+        return "withdraw";
 
     }
     /*
@@ -176,17 +176,17 @@ public class AuthController {
     * Is dit goed, maak dan het geld over
     *
     * */
-    @GetMapping("/overmaken")
+    @GetMapping("/transfer")
     public String get_overmaken(Model model,Principal principal){
         System.out.println("--> GET overmaken");
         model.addAttribute("bedrag", new Bedrag());
 
-        return "overmaken";
+        return "transfer";
     }
-    @PostMapping("/overmaken")
+    @PostMapping("/transfer_check")
     public String post_overmaken(@Valid Bedrag bedrag, BindingResult result, Model model, Principal principal, @RequestParam int overmaak_rekening){
-        System.out.println("--> POST overmaken");
-        System.out.println("Overmaakrekening: " + overmaak_rekening);
+        System.out.println("--> POST transfer");
+
         User user = userService.findUserByEmail(principal.getName());
         Bankrekening rekening = rekeningRepository.findBankRekeningByUser(user);
 
@@ -205,17 +205,17 @@ public class AuthController {
             model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
             model.addAttribute("rekeningnummer", transfer_rekening.getId());
             model.addAttribute("bedrag", bedrag.getPinbedrag());
-            return "overmaak_check";
+            return "transfer_check";
         }
         else{
-            model.addAttribute("error", "Niet genoeg saldo");
+            model.addAttribute("error", "Not enough balance");
         }
         model.addAttribute("saldo", rekening.getSaldo());
-        return "overmaken";
+        return "transfer";
     }
-    @PostMapping("/overboeken")
+    @PostMapping("/transfer")
     public String overmaakCheck(@RequestParam String rekeningnaam,@RequestParam int rekeningnummer ,@RequestParam int bedrag, Principal principal ){
-        System.out.println("--> GET Overboeken");
+        System.out.println("--> POST transfer");
 
         User user = userService.findUserByEmail(principal.getName());
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
@@ -243,9 +243,5 @@ public class AuthController {
 
         System.out.println("--> Oke het geld is overgemaakt");
         return "sucess";
-    }
-    @GetMapping("fragment")
-    public String fragment_test(){
-        return "header_fragment";
     }
 }

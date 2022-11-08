@@ -83,6 +83,14 @@ Standaard elements
     align-items: center;
     z-index:9;
 }
+/*<-- form --> */
+.alert-info{
+    color: #055160;
+    background-color: #cff4fc;
+    border-color: #b6effb;
+    display: flex;
+    justify-content: center;
+}
 
 .site-container{
     height: 100%;
