@@ -6,8 +6,11 @@ import com.example.registration_demo.entity.Bankrekening;
 import com.example.registration_demo.entity.Bedrag;
 import com.example.registration_demo.entity.Transactie;
 import com.example.registration_demo.entity.User;
+import com.example.registration_demo.entity.Role;
 import com.example.registration_demo.repository.BankRekeningRepository;
+import com.example.registration_demo.repository.RoleRepository;
 import com.example.registration_demo.repository.TransactieRepository;
+import com.example.registration_demo.repository.UserRepository;
 import com.example.registration_demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -32,6 +36,11 @@ public class AuthController {
     @Autowired
     private TransactieRepository transactieRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
     public AuthController(UserService userService) {
         this.userService = userService;
     }
@@ -116,18 +125,30 @@ public class AuthController {
     public String get_rekening(Model model){
         System.out.println("--> GET rekening");
         model.addAttribute("rekening", new Bankrekening());
-        return "backaccount";
+        return "bankaccount";
     }
 
     @PostMapping("/bankaccount")
     public String post_rekening(@Valid Bankrekening rekening, BindingResult result, Model model, Principal principal){
-
+        System.out.println("--> POST bankaccount");
         if (result.hasErrors()){
             System.out.println("ERRORS");
         }
         rekening.setUser(userService.findUserByEmail(principal.getName()));
         rekeningRepository.save(rekening);
-        System.out.println("REKENING opgeslagen");
+
+        Role transfer_role = roleRepository.findByname("transfer_user");
+
+        User user = userService.findUserByEmail(principal.getName());
+
+        List<Role> list = new LinkedList<>();
+        list.add(transfer_role);
+
+        user.setRoles(list);
+        userRepository.save(user);
+        System.out.println("opgeslagen");
+
+
         return "bankaccount";
     }
 /* Withdraw*/
@@ -243,5 +264,20 @@ public class AuthController {
 
         System.out.println("--> Oke het geld is overgemaakt");
         return "sucess";
+    }
+
+    @GetMapping("/role")
+    public String get_role(){
+        System.out.println("--> get role");
+        return "role";
+    }
+    @PostMapping("role")
+    public String post_role(@RequestParam String role){
+
+        Role new_role = new Role();
+
+        new_role.setName(role);
+        roleRepository.save(new_role);
+        return "role";
     }
 }
