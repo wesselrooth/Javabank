@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Registration and Login System</title>
@@ -17,8 +18,20 @@
 <!--Side Navigation-->
 <nav th:replace="fragments/sidemenu_fragment :: side_menu"></nav>
 
+
 <div class="site-container">
+    <b>Role checking:</b>
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+    </div>
+
+
     <section>
+        <div sec:authorize="isAuthenticated()">
+            Welcome <b><span sec:authentication="name">Username</span></b>
+
+            <i><span sec:authentication="principal.roles">Roles</span></i>
+        </div>
         <div class="row row-padding">
             <div class="column-25">
                 <a href="/transfer" class="link">

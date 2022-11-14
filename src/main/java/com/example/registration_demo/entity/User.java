@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
@@ -33,6 +36,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+
+    private boolean enabled;
+    private String username;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -51,4 +58,5 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
 }

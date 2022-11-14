@@ -5,10 +5,12 @@ import com.example.registration_demo.entity.User;
 import com.example.registration_demo.dto.UserDto;
 import com.example.registration_demo.repository.RoleRepository;
 import com.example.registration_demo.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,4 +72,6 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+
+
 }
