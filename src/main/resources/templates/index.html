@@ -30,7 +30,8 @@
         <div sec:authorize="isAuthenticated()">
             Welcome <b><span sec:authentication="name">Username</span></b>
 
-            <i><span sec:authentication="principal.roles">Roles</span></i>
+            <div sec:authorize='hasAuthority("transfer_user")'>Text visible to JEMOEDER.</div>
+
         </div>
         <div class="row row-padding">
             <div class="column-25">

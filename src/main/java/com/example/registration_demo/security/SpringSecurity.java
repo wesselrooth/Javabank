@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.registration_demo.repository.UserRepository;
+
+import javax.annotation.Resource;
+
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
@@ -47,6 +50,10 @@ public class SpringSecurity {
 //        auth.authenticationProvider(authenticationProvider());
 //    }
     // configure SecurityFilterChain
+    @Resource
+    private UserDetailsService userDetailsService;
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
