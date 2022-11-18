@@ -9,7 +9,6 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <link th:href="@{/styles/style.css}" rel="stylesheet" />
-
     <!-- template: https://www.w3schools.com/w3css/tryw3css_templates_analytics.htm# -->
 </head>
 <body>
@@ -22,18 +21,14 @@
 <div class="site-container">
     <b>Role checking:</b>
     <div sec:authorize="isAuthenticated()">
-        This content is only shown to authenticated users.
+        ingelogd
     </div>
-
-
-    <section>
-        <div sec:authorize="isAuthenticated()">
-            Welcome <b><span sec:authentication="name">Username</span></b>
-
-            <div sec:authorize='hasAuthority("transfer_user")'>Text visible to JEMOEDER.</div>
-
-        </div>
-        <div class="row row-padding">
+    <div sec:authentication="principal"></div>
+    <section sec:authorize='hasAuthority("USER")'>
+        <a  class="menu-item" th:href="@{/bankaccount}">create bankaccount</a>
+    </section>
+    <section sec:authorize='hasAuthority("TRANSFER_USER")'>
+        <div class="row row-padding" >
             <div class="column-25">
                 <a href="/transfer" class="link">
                     <div class="column-content transfer-block">
@@ -67,7 +62,7 @@
         </div>
     </section>
 
-    <section>
+    <section sec:authorize='hasAuthority("TRANSFER_USER")'>
         <div class="row row-padding">
 
             <div class="column-50">
@@ -98,8 +93,6 @@
                     </li>
                 </ul>
             </div>
-
-
         </div>
     </section>
 

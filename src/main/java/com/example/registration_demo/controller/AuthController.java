@@ -108,16 +108,13 @@ public class AuthController {
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(current_user);
 
         double saldo  = user_rekening.getSaldo();
-
         double pin_bedragg = bedrag.getPinbedrag().doubleValue();
-
-        saldo = saldo + pin_bedragg;
-
-        user_rekening.setSaldo(saldo);
+        user_rekening.addSaldo(pin_bedragg);
 
         model.addAttribute("saldo", user_rekening.getSaldo());
 
         rekeningRepository.save(user_rekening);
+
         return "deposite";
     }
 
@@ -131,23 +128,25 @@ public class AuthController {
     @PostMapping("/bankaccount")
     public String post_rekening(@Valid Bankrekening rekening, BindingResult result, Model model, Principal principal){
         System.out.println("--> POST bankaccount");
+
         if (result.hasErrors()){
             System.out.println("ERRORS");
         }
         rekening.setUser(userService.findUserByEmail(principal.getName()));
         rekeningRepository.save(rekening);
 
-        Role transfer_role = roleRepository.findByname("transfer_user");
+        Role transfer_role = roleRepository.findByname("TRANSFER_USER");
 
         User user = userService.findUserByEmail(principal.getName());
 
         List<Role> list = new LinkedList<>();
         list.add(transfer_role);
-
         user.setRoles(list);
-        userRepository.save(user);
-        System.out.println("opgeslagen");
 
+        Role to_delete_role = roleRepository.findByname("USER");
+        user.removeRoles(to_delete_role);
+
+        userRepository.save(user);
 
         return "bankaccount";
     }
@@ -185,18 +184,6 @@ public class AuthController {
         return "withdraw";
 
     }
-    /*
-    * Wat moet er gebeuren als je geld wilt overmaken
-    * Bedrag invullen
-    *   Bedrag check, laat error zien
-    *
-    * Check of de gebruiker wel het bedrag op zijn rekening heeft staan
-    *
-    * Pak de rekening nummer waar het naartoe moet,
-    *   Laat zien op wie zijn naam deze staat
-    * Is dit goed, maak dan het geld over
-    *
-    * */
     @GetMapping("/transfer")
     public String get_overmaken(Model model,Principal principal){
         System.out.println("--> GET overmaken");
@@ -222,7 +209,6 @@ public class AuthController {
             Long rekeningId = Long.valueOf(overmaak_rekening);
 
             Bankrekening transfer_rekening =  rekeningRepository.findBankRekeningById(rekeningId);
-            System.out.println("En damens en heren de nieuwe rekening is **tromgeroffel ---> " + transfer_rekening);
             model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
             model.addAttribute("rekeningnummer", transfer_rekening.getId());
             model.addAttribute("bedrag", bedrag.getPinbedrag());
@@ -273,9 +259,7 @@ public class AuthController {
     }
     @PostMapping("role")
     public String post_role(@RequestParam String role){
-
         Role new_role = new Role();
-
         new_role.setName(role);
         roleRepository.save(new_role);
         return "role";
