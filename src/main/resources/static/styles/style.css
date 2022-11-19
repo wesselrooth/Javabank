@@ -46,6 +46,9 @@ Standaard elements
 .link{
     color: black
 }
+.link-block{
+    text-align: center;
+}
 /* Header-footer */
 .header{
     background-color: #007057;
@@ -167,4 +170,31 @@ Standaard elements
     display: flex;
     align-items: center;
     padding:50px
+}
+/*
+Tablet Screens
+*/
+@media (max-width: 768px) {
+    .side-menu{
+        display: none;
+    }
+    .site-container{
+        margin-left: 0px;
+    }
+    .column-50{
+        width: 100%;
+    }
+    .column-25{
+        width: 50%;
+    }
+}
+@media (max-width: 600px){
+    .column-25{
+        width: 100%;
+    }
+    .link-block{
+        width: 75%;
+
+        margin-bottom: 5px;
+    }
 }

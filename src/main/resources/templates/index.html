@@ -17,20 +17,24 @@
 <!--Side Navigation-->
 <nav th:replace="fragments/sidemenu_fragment :: side_menu"></nav>
 
-
 <div class="site-container">
     <b>Role checking:</b>
-    <div sec:authorize="isAuthenticated()">
-        ingelogd
+    <div sec:authorize="isAnonymous()">
+        <section>
+            <div class="column-50">
+                <a href="/login" class="link link-block">
+                    <div class="history-image">
+                        <h2>Login</h2>
+                    </div>
+                </a>
+            </div>
+        </section>
     </div>
-    <div sec:authentication="principal"></div>
-    <section sec:authorize='hasAuthority("USER")'>
-        <a  class="menu-item" th:href="@{/bankaccount}">create bankaccount</a>
-    </section>
+
     <section sec:authorize='hasAuthority("TRANSFER_USER")'>
         <div class="row row-padding" >
             <div class="column-25">
-                <a href="/transfer" class="link">
+                <a href="/transfer" class="link link-block">
                     <div class="column-content transfer-block">
                         <h2>Transfer</h2>
                     </div>
@@ -38,7 +42,7 @@
             </div>
 
             <div class="column-25">
-                <a href="#" class="link">
+                <a href="#" class="link link-block">
                     <div class="column-content overview-block">
                         <h2>Accounts</h2>
                     </div>
@@ -46,14 +50,14 @@
             </div>
 
             <div class="column-25">
-                <a href="/withdraw" class="link">
+                <a href="/withdraw" class="link link-block">
                     <div class="column-content withdraw-block">
                         <h2>Withdraw</h2>
                     </div>
                 </a>
             </div>
             <div class="column-25">
-                <a href="/deposite" class="link">
+                <a href="/deposite" class="link link-block">
                     <div class="column-content deposite-block">
                         <h2>Deposite</h2>
                     </div>
@@ -66,7 +70,7 @@
         <div class="row row-padding">
 
             <div class="column-50">
-                <a href="#" class="link">
+                <a href="#" class="link link-block">
                     <div class="history-image">
                         <h2>History</h2>
                     </div>
