@@ -12,14 +12,13 @@
     <img src="/media/images.jpeg" alt="" srcset="" class="side-menu-profile">
   </div>
   <div class="text-block-container">
-    <div sec:authorize="isAnonymous()">
-      <p>Firstname Lastname</p>
+    <div th:if="!${#request.userPrincipal}">
+      Login to view your backaccount
     </div>
 
     <p sec:authorize="isAuthenticated()">
-      <p> Is authenticated</p>
+      Authenticated
     </p>
-
   </div>
   <div class="top-down-list-container">
     <ul class="side-menu-list">
