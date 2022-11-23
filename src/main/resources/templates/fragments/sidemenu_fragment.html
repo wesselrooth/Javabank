@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-
-
 </head>
-
 <body>
 
 <nav th:fragment="side_menu" class="side-menu" >
@@ -14,7 +12,14 @@
     <img src="/media/images.jpeg" alt="" srcset="" class="side-menu-profile">
   </div>
   <div class="text-block-container">
-    <p>Firstname Lastname</p>
+    <div sec:authorize="isAnonymous()">
+      <p>Firstname Lastname</p>
+    </div>
+
+    <p sec:authorize="isAuthenticated()">
+      <p> Is authenticated</p>
+    </p>
+
   </div>
   <div class="top-down-list-container">
     <ul class="side-menu-list">

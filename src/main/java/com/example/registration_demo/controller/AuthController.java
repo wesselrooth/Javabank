@@ -14,6 +14,7 @@ import com.example.registration_demo.repository.UserRepository;
 import com.example.registration_demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,7 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
 
     @Autowired
     private RoleRepository roleRepository;
@@ -264,4 +266,6 @@ public class AuthController {
         roleRepository.save(new_role);
         return "role";
     }
+
+
 }

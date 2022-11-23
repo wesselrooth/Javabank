@@ -19,6 +19,7 @@
 
 <div class="site-container">
     <b>Role checking:</b>
+    <p sec:authentication="principal.username">Welkom:</p>
     <div sec:authorize="isAnonymous()">
         <section>
             <div class="column-50">
