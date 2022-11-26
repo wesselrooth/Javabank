@@ -27,10 +27,10 @@ public class Bankrekening {
         return this.name;
     }
 
-    @OneToMany(mappedBy = "rekening")
+    @OneToMany(mappedBy = "rekening" ,cascade= CascadeType.ALL)
     private Set<Transactie> transacties;
 
-    @OneToMany(mappedBy = "receiver_rekening")
+    @OneToMany(mappedBy = "receiver_rekening", cascade= CascadeType.ALL)
     private Set<Transactie> ontvangen_transacties;
     /*
     * Getter / Setters
