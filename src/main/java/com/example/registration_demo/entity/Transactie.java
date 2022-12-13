@@ -21,11 +21,11 @@ public class Transactie {
     private Double bedrag;
 
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "bankrekening",nullable = false, insertable = true,updatable = false)
     private Bankrekening rekening;
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "receiver_rekening",nullable = false, insertable = true,updatable = false)
 
     private Bankrekening receiver_rekening;

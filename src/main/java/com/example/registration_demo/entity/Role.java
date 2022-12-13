@@ -21,7 +21,7 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
 
     public void setName(String name){
@@ -35,6 +35,11 @@ public class Role {
     }
     public List<User> getUsers() {
         return users;
+    }
+
+
+    public Long getId() {
+        return id;
     }
 
 }

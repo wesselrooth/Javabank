@@ -259,11 +259,14 @@ public class AuthController {
         System.out.println("--> get role");
         return "role";
     }
-    @PostMapping("role")
-    public String post_role(@RequestParam String role){
+    @PostMapping("/role")
+    public String post_role(@RequestParam String role, Principal principal){
+        System.out.println("--> POST Removce ROLE");
+
         Role new_role = new Role();
         new_role.setName(role);
         roleRepository.save(new_role);
+
         return "role";
     }
 
