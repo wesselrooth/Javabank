@@ -267,5 +267,11 @@ public class AuthController {
         return "role";
     }
 
+    @GetMapping("/profile")
+    public String get_profile(){
+        System.out.println("--> GET profile");
+
+        return "profile";
+    }
 
 }
