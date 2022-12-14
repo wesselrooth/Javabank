@@ -1,5 +1,6 @@
 package com.example.registration_demo.security;
 
+import com.example.registration_demo.entity.User;
 import com.example.registration_demo.repository.UserRepository;
 import com.example.registration_demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.registration_demo.repository.UserRepository;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +33,14 @@ public class SpringSecurity {
 
     @Resource
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public String getEmail(Principal principal){
+        User user = userRepository.findByEmail(principal.getName());
+        return user.getEmail();
+    }
 
 
     @Bean

@@ -271,8 +271,10 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public String get_profile(){
+    public String get_profile(Principal principal){
         System.out.println("--> GET profile");
+
+        User user = userRepository.findByEmail(principal.getName());
 
         return "profile";
     }

@@ -21,14 +21,13 @@
   <section>
     <div>
       <ul>
-        <li sec:authentication="principal.username">
-
+        <li sec:authentication="User.getEmail()">
         </li>
-        <li sec:authentication="principal.getUsername()">
 
-        </li>
       </ul>
+
     </div>
+
   </section>
 
   <section></section>

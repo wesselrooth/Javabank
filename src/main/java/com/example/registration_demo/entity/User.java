@@ -62,4 +62,8 @@ public class User {
         System.out.println("REMOVING ROLE");
         this.getRoles().remove(role);
     }
+
+    public String getEmail() {
+        return email;
+    }
 }

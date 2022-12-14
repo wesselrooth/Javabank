@@ -15,16 +15,10 @@
     <div th:if="!${#request.userPrincipal}">
       Login to view your backaccount
     </div>
-
-    <p sec:authorize="isAuthenticated()">
-      Authenticated
-      <p sec:authentication="principal"></p>
-    </p>
   </div>
-  <div class="top-down-list-container">
+  <div class="top-down-list-container" sec:authorize="isAuthenticated()">
     <ul class="side-menu-list">
-      <li>List item</li>
-      <li>List item</li>
+      <li sec:authentication="principal.username"></li>
     </ul>
   </div>
 </nav>

@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -71,6 +72,12 @@ public class UserServiceImpl implements UserService {
         Role role = new Role();
         role.setName("USER");
         return roleRepository.save(role);
+    }
+
+
+    public String getEmail(Principal principal){
+        User user = userRepository.findByEmail(principal.getName());
+        return user.getEmail();
     }
 
 
