@@ -13,13 +13,15 @@
   </div>
   <div class="text-block-container">
     <div th:if="!${#request.userPrincipal}">
-      Login to view your backaccount
+      Anoniem
     </div>
   </div>
   <div class="top-down-list-container" sec:authorize="isAuthenticated()">
     <ul class="side-menu-list">
       <li sec:authentication="principal.username"></li>
     </ul>
+    <p>name:</p>
+    <span sec:authentication="principal.fullName">Fullname</span>
   </div>
 </nav>
 

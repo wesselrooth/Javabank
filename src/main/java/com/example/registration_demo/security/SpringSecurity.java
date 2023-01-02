@@ -30,18 +30,32 @@ public class SpringSecurity {
         return new BCryptPasswordEncoder();
     }
 
-
-    @Resource
-    private UserDetailsService userDetailsService;
+//    @Resource
+//    private UserDetailsService userDetailsService;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService(userRepository);
+    }
 
     public String getEmail(Principal principal){
         User user = userRepository.findByEmail(principal.getName());
         return user.getEmail();
     }
 
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+        authProvider.setUserDetailsService(userDetailsService());
+
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
