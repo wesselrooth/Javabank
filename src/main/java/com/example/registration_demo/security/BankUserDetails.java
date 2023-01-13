@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 public class BankUserDetails implements UserDetails {
     private User user;
 
-    public BankUserDetails(User user){
-        System.out.println("--> UserDetails");
+    public BankUserDetails(User user) {
         this.user = user;
-
     }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roles = user.getRoles();
@@ -58,7 +58,7 @@ public class BankUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return true;
     }
     public String getFullName() {
         System.out.println("\n--> HIERZO");

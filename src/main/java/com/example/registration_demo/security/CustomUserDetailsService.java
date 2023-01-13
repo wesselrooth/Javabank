@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -32,13 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByEmail(usernameOrEmail);
         if(user != null){
             System.out.println("--> JAHOOR de user is gevonden !!");
-//            return new org.springframework.security.core.userdetails.User(
-//                    user.getEmail(),
-//                    user.getPassword(),
-//                    user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))
-//                            .collect(Collectors.toList()));
             return new BankUserDetails(user);
-//
+
         }else {
             System.out.println("--> User niet gevonden");
             throw new UsernameNotFoundException("Invalid email or password");
