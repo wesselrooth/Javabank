@@ -3,6 +3,7 @@ package com.example.registration_demo.security;
 import com.example.registration_demo.entity.Role;
 import com.example.registration_demo.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.Transient;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -63,7 +64,9 @@ public class BankUserDetails implements UserDetails {
     public String getFullName() {
         return this.user.getName();
     }
+
     public String getProfileImage(){
-        return "Imagelink";
+        String imagePath = this.user.getPhotosImagePath();
+        return imagePath;
     }
 }

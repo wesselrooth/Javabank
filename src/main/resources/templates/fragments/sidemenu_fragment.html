@@ -19,6 +19,9 @@
   <div class="top-down-list-container" sec:authorize="isAuthenticated()">
     <ul class="side-menu-list">
       <li sec:authentication="principal.username"></li>
+
+      <li sec:authentication="principal.ProfileImage"></li>
+
     </ul>
     <p>name:</p>
     <span sec:authentication="principal.fullName">Fullname</span>

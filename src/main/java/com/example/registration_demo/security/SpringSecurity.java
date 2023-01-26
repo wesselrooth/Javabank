@@ -17,43 +17,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.example.registration_demo.repository.UserRepository;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import javax.annotation.Resource;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurity {
-
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-//    @Resource
-//    private UserDetailsService userDetailsService;
+    @Resource
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private UserRepository userRepository;
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService(userRepository);
-    }
-
-    public String getEmail(Principal principal){
-        User user = userRepository.findByEmail(principal.getName());
-        return user.getEmail();
-    }
-
-    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
-        authProvider.setUserDetailsService(userDetailsService());
-
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
@@ -81,6 +70,16 @@ public class SpringSecurity {
         return http.build();
     }
 
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        exposeDirectory("user-photos", registry);
+    }
 
+    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
+        Path uploadDir = Paths.get(dirName);
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
 
+        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
+
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+    }
 }

@@ -20,12 +20,18 @@
 <div class="site-container">
   <section>
     <div>
-      <ul>
-<!--        <li sec:authentication="principal.getProfileImage()">-->
-        </li>
-        <span sec:authentication="principal.ProfileImage">Fullname</span>
-      </ul>
+        <form th:action="@{/profile}"
+              method="post"
+              enctype="multipart/form-data">
+            <div>
+                <label>Photos: </label>
+                <input type="file" name="image" accept="image/png, image/jpeg" />
+            </div>
+            <button type="submit" class="btn btn-primary" >Submit</button>
+        </form>
+        <img th:src="@{principal.ProfileImage}" id="image-id" alt="" srcset="">
 
+        <span sec:authentication="principal.ProfileImage">profile link</span>
     </div>
 
   </section>

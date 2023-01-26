@@ -1,5 +1,7 @@
 package com.example.registration_demo.controller;
 
+import antlr.StringUtils;
+import com.example.registration_demo.Utils.FileUploadUtil;
 import com.example.registration_demo.dto.UserDto;
 //import com.example.registration_demo.entity.BankRekening;
 import com.example.registration_demo.entity.Bankrekening;
@@ -13,6 +15,7 @@ import com.example.registration_demo.repository.TransactieRepository;
 import com.example.registration_demo.repository.UserRepository;
 import com.example.registration_demo.service.UserService;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -22,8 +25,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
@@ -277,6 +282,23 @@ public class AuthController {
         User user = userRepository.findByEmail(principal.getName());
 
         return "profile";
+    }
+    @PostMapping("/profile")
+    public String post_profile(Principal principal, @RequestParam("image")MultipartFile multipartFile) throws IOException {
+        System.out.println("--> POST profile|");
+        System.out.println(multipartFile.getOriginalFilename());
+
+        User user = userRepository.findByEmail(principal.getName());
+        user.setProfileImage(multipartFile.getOriginalFilename());
+
+        userRepository.save(user);
+
+        String uploadDir = "user-photos/" + user.getId();
+
+        FileUploadUtil.saveFile(uploadDir, multipartFile.getOriginalFilename(), multipartFile);
+
+        return "profile";
+
     }
 
 }

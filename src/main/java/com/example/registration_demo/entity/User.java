@@ -74,4 +74,17 @@ public class User {
         return name;
     }
 
+    public String getProfileImage(){
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage){
+        this.profileImage = profileImage;
+    }
+    @Transient
+    public String getPhotosImagePath() {
+        if (profileImage == null || id == null) return null;
+
+        return "/user-photos/" + id + "/" + profileImage;
+    }
 }
