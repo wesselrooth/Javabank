@@ -18,8 +18,6 @@
 <nav th:replace="fragments/sidemenu_fragment :: side_menu"></nav>
 
 <div class="site-container">
-    <b>Role checking:</b>
-
     <div sec:authorize="isAnonymous()">
         <section>
             <div class="column-50">

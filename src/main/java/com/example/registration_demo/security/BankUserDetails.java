@@ -61,8 +61,9 @@ public class BankUserDetails implements UserDetails {
         return true;
     }
     public String getFullName() {
-        System.out.println("\n--> HIERZO");
         return this.user.getName();
     }
-
+    public String getProfileImage(){
+        return "Imagelink";
+    }
 }

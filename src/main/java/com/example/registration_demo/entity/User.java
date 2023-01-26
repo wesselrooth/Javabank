@@ -40,6 +40,9 @@ public class User {
     private boolean enabled;
     private String username;
 
+    @Column(nullable = true, length = 64)
+    private String profileImage;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -70,4 +73,5 @@ public class User {
     public String getName() {
         return name;
     }
+
 }
