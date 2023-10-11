@@ -32,13 +32,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = userRepository.findByEmail(usernameOrEmail);
         if(user != null){
-            System.out.println("--> JAHOOR de user is gevonden !!");
+            System.out.println("--> Found User");
             return new BankUserDetails(user);
 
         }else {
-            System.out.println("--> User niet gevonden");
+            System.out.println("--> User not found");
             throw new UsernameNotFoundException("Invalid email or password");
-
         }
     }
 

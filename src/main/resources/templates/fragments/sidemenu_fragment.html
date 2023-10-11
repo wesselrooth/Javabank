@@ -9,22 +9,24 @@
 
 <nav th:fragment="side_menu" class="side-menu" >
   <div class="image-container">
-    <img src="/media/images.jpeg" alt="" srcset="" class="side-menu-profile">
+    
   </div>
   <div class="text-block-container">
     <div th:if="!${#request.userPrincipal}">
-      Anoniem
+      
     </div>
   </div>
   <div class="top-down-list-container" sec:authorize="isAuthenticated()">
-    <ul class="side-menu-list">
-      <li sec:authentication="principal.username"></li>
-
-      <li sec:authentication="principal.ProfileImage"></li>
-
-    </ul>
-    <p>name:</p>
-    <span sec:authentication="principal.fullName">Fullname</span>
+    <!-- <ul class="side-menu-list">
+      <li sec:authentication="principal.username"></li> -->
+      <!-- <li sec:authentication="principal.firstName"></li> -->
+      <!-- <li sec:authentication="principal.ProfileImage"></li> -->
+      <!-- <li sec:authentication="principal.ProfileImage"></li> -->
+      <!-- <img  th:src="@{/media/user-photos/10/composer-ludwig-van-beethoven-classic-fm-1612452805.png}" alt="User Image" /> -->
+    <!-- </ul> -->
+    <p>goeidag</p>
+    <h2 sec:authentication="principal.fullName"></h2>
+    
   </div>
 </nav>
 

@@ -53,6 +53,8 @@ public class AuthController {
     }
     @GetMapping("/")
     public String home(){
+        
+        
         return "index";
     }
 
@@ -200,7 +202,7 @@ public class AuthController {
     }
     @PostMapping("/transfer_check")
     public String post_overmaken(@Valid Bedrag bedrag, BindingResult result, Model model, Principal principal, @RequestParam int overmaak_rekening){
-        System.out.println("--> POST transfer");
+        System.out.println("--> POST CHECK TRANSFER");
 
         User user = userService.findUserByEmail(principal.getName());
         Bankrekening rekening = rekeningRepository.findBankRekeningByUser(user);
@@ -208,22 +210,35 @@ public class AuthController {
         Double saldo = rekening.getSaldo();
         Double double_bedrag = bedrag.getPinbedrag().doubleValue();
 
+        
+
         if (double_bedrag < saldo){
+            
             saldo = saldo - double_bedrag;
             /*
             * Logic om geld op andere rekeneing te krijgen
             * */
+            
+            
             Long rekeningId = Long.valueOf(overmaak_rekening);
-
             Bankrekening transfer_rekening =  rekeningRepository.findBankRekeningById(rekeningId);
-            model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
-            model.addAttribute("rekeningnummer", transfer_rekening.getId());
-            model.addAttribute("bedrag", bedrag.getPinbedrag());
+            if (transfer_rekening != null){
+                model.addAttribute("rekeningnaam", transfer_rekening.getUser().getEmail());
+                model.addAttribute("rekeningnummer", transfer_rekening.getId());   
+                model.addAttribute("bedrag", bedrag.getPinbedrag());
+            }
+            else{
+                model.addAttribute("error", "Sorry,Account does not exist");    
+                return "transfer";
+            }
+                
             return "transfer_check";
         }
+        
         else{
             model.addAttribute("error", "Not enough balance");
         }
+        System.out.println("--> done IF ELSE");
         model.addAttribute("saldo", rekening.getSaldo());
         return "transfer";
     }
@@ -231,6 +246,7 @@ public class AuthController {
     public String overmaakCheck(@RequestParam String rekeningnaam,@RequestParam int rekeningnummer ,@RequestParam int bedrag, Principal principal ){
         System.out.println("--> POST transfer");
 
+        // pak hier de user van wie geld overgemaakt moet worden
         User user = userService.findUserByEmail(principal.getName());
         Bankrekening user_rekening = rekeningRepository.findBankRekeningByUser(user);
 
@@ -238,13 +254,15 @@ public class AuthController {
         double overboek_bedrag = Double.valueOf(bedrag);
         user_rekening.subtractSaldo(overboek_bedrag);
 
-//      Find account of receiver
-        User user_reciver = userService.findUserByEmail(rekeningnaam);
-        Bankrekening transfer_rekening = rekeningRepository.findBankRekeningByUser(user_reciver);
+//      Find account of receiver        
+        Long rekeningnummerLong = Long.valueOf(rekeningnummer);
+        Bankrekening transfer_rekening = rekeningRepository.findBankRekeningById(rekeningnummerLong);
+        
+        System.out.println(transfer_rekening.getId());
 
 //        Add money to receiver account
-        double transfer_saldo = transfer_rekening.getSaldo();
-        transfer_rekening.addSaldo(transfer_saldo);
+        // double transfer_saldo = transfer_rekening.getSaldo();
+        transfer_rekening.addSaldo(overboek_bedrag);
 
         Transactie transactie = new Transactie();
         transactie.setBedrag(overboek_bedrag);
@@ -255,8 +273,8 @@ public class AuthController {
         rekeningRepository.save(user_rekening);
         rekeningRepository.save(transfer_rekening);
 
-        System.out.println("--> Oke het geld is overgemaakt");
-        return "sucess";
+        System.out.println("--> Geld is overgemaakt");
+        return "transfer_success";
     }
 
     @GetMapping("/role")
@@ -293,9 +311,9 @@ public class AuthController {
 
         userRepository.save(user);
 
-        String uploadDir = "user-photos/" + user.getId();
-
-        FileUploadUtil.saveFile(uploadDir, multipartFile.getOriginalFilename(), multipartFile);
+        // String uploadDir = "user-photos/" + user.getId();
+        String uploadDir2 = "src/main/resources/static/media/user-photos/" + user.getId();
+        FileUploadUtil.saveFile(uploadDir2, multipartFile.getOriginalFilename(), multipartFile);
 
         return "profile";
 

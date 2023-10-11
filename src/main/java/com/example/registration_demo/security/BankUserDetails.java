@@ -20,7 +20,6 @@ public class BankUserDetails implements UserDetails {
         this.user = user;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<Role> roles = user.getRoles();

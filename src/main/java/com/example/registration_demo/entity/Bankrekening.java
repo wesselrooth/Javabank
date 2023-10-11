@@ -81,10 +81,11 @@ public class Bankrekening {
         this.setSaldo(saldo);
     }
     public void addSaldo(double bedrag){
+        System.out.println("--> add Saldo");
         double saldo = this.getSaldo();
 
         saldo = saldo + bedrag;
         this.setSaldo(saldo);
-
+        System.out.println(this.saldo);
     }
 }
